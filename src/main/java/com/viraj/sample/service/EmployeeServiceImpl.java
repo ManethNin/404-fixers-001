@@ -1,66 +1,49 @@
 package com.viraj.sample.service;
 
 import com.viraj.sample.entity.Employee;
+import com.viraj.sample.repository.EmployeeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final Map<Long, Employee> employeeStore = new ConcurrentHashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
-
-    // Initialize with some sample data
-    public EmployeeServiceImpl() {
-        Employee emp1 = new Employee("John Doe", "Software Developer");
-        emp1.setEmployeeId(idGenerator.getAndIncrement());
-        employeeStore.put(emp1.getEmployeeId(), emp1);
-
-        Employee emp2 = new Employee("Jane Smith", "Project Manager");
-        emp2.setEmployeeId(idGenerator.getAndIncrement());
-        employeeStore.put(emp2.getEmployeeId(), emp2);
-    }
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Override
     public Employee saveEmployee(Employee employee) {
-        if (employee.getEmployeeId() == 0) {
-            employee.setEmployeeId(idGenerator.getAndIncrement());
-        }
-        employeeStore.put(employee.getEmployeeId(), employee);
-        return employee;
+        return employeeRepository.save(employee);
     }
 
     @Override
     public Employee updateEmployee(Employee employee) {
-        if (employeeStore.containsKey(employee.getEmployeeId())) {
-            employeeStore.put(employee.getEmployeeId(), employee);
-            return employee;
+        if (employeeRepository.existsById(employee.getEmployeeId())) {
+            return employeeRepository.save(employee);
         }
         throw new RuntimeException("Employee with ID " + employee.getEmployeeId() + " not found");
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        return new ArrayList<>(employeeStore.values());
+        List<Employee> employees = new ArrayList<>();
+        employeeRepository.findAll().forEach(employees::add);
+        return employees;
     }
 
     @Override
     public Employee getEmployee(Long employeeId) {
-        Employee employee = employeeStore.get(employeeId);
-        if (employee == null) {
-            throw new RuntimeException("Employee with ID " + employeeId + " not found");
-        }
-        return employee;
+        return employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new RuntimeException("Employee with ID " + employeeId + " not found"));
     }
 
     @Override
     public void deleteEmployee(Long employeeId) {
-        if (!employeeStore.containsKey(employeeId)) {
+        if (!employeeRepository.existsById(employeeId)) {
             throw new RuntimeException("Employee with ID " + employeeId + " not found");
         }
-        employeeStore.remove(employeeId);
+        employeeRepository.deleteById(employeeId);
     }
 }

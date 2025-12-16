@@ -27,12 +27,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-        <dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.33</version>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
-        </dependency>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -44,12 +43,6 @@
 			<version>1.18.30</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- OpenRewrite dependencies for custom recipe -->
-		<dependency>
-			<groupId>org.openrewrite</groupId>
-			<artifactId>rewrite-java</artifactId>
-			<version>8.45.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -57,26 +50,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<compilerArgs>
-						<arg>-Xlint:deprecation</arg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.openrewrite.maven</groupId>
-				<artifactId>rewrite-maven-plugin</artifactId>
-				<version>5.46.0</version>
-				<configuration>
-					<activeRecipes>
-						<recipe>org.openrewrite.java.recipes.FindRecipes</recipe>
-					</activeRecipes>
-					<exportDatatables>true</exportDatatables>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
