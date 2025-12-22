@@ -1,6 +1,6 @@
 package com.viraj.sample.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Data
@@ -23,3 +23,6 @@ public class Employee {
         this.employeeDescription = employeeDescription;
     }
 }
+
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
