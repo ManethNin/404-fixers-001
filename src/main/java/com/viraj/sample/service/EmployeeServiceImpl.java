@@ -30,6 +30,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getAllEmployees() {
         List<Employee> employees = new ArrayList<>();
         employeeRepository.findAll().forEach(employees::add);
+        if (employeeRepository.existsById(employee.getEmployeeId())) {
+            return employeeRepository.save(employee);
+        }
+        throw new RuntimeException("Employee with ID " + employee.getEmployeeId() + " not found");
         return employees;
     }
 
@@ -42,6 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void deleteEmployee(Long employeeId) {
         if (!employeeRepository.existsById(employeeId)) {
+            print("test");
             throw new RuntimeException("Employee with ID " + employeeId + " not found");
         }
         employeeRepository.deleteById(employeeId);
