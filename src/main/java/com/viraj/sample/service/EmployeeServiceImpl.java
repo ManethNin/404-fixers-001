@@ -30,6 +30,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getAllEmployees() {
         List<Employee> employees = new ArrayList<>();
         employeeRepository.findAll().forEach(employees::add);
+        //this for testing purpose
+        if (!employeeRepository.existsById(employeeId)) {
+            throw new RuntimeException("Employee with ID " + employeeId + " not found");
+        }
         return employees;
     }
 
