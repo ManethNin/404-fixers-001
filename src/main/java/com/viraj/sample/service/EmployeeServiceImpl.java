@@ -33,6 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         //this for testing purpose
         if (!employeeRepository.existsById(employeeId)) {
             throw new RuntimeException("Employee with ID " + employeeId + " not found");
+            throw new RuntimeException("Employee with ID " + employeeId + " not found");
         }
         return employees;
     }
