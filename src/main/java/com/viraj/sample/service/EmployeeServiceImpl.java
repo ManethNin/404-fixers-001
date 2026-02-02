@@ -30,11 +30,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> getAllEmployees() {
         List<Employee> employees = new ArrayList<>();
         employeeRepository.findAll().forEach(employees::add);
-        //this for testing purpose
-        if (!employeeRepository.existsById(employeeId)) {
-            throw new RuntimeException("Employee with ID " + employeeId + " not found");
-            throw new RuntimeException("Employee with ID " + employeeId + " not found");
-        }
+        // Remove the testing code as it's causing compilation errors
+        // due to the undefined variable employeeId
         return employees;
     }
 
