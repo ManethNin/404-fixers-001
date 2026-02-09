@@ -1,15 +1,15 @@
 package com.viraj.sample.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Data
-@Entity
+@javax.persistence.Entity
 @Table(name = "employees")
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @javax.persistence.GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
     private long employeeId;
     
     private String employeeName;
